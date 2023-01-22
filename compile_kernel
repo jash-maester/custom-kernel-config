@@ -1,0 +1,12 @@
+#!/bin/bash
+
+make clean && \
+#cp .config ./linux*/.config && \
+#make oldconfig && \
+make -j `getconf _NPROCESSORS_ONLN` && \
+sudo make INSTALL_MOD_STRIP=1 modules_install && \
+sudo make install && \
+# edit /etc/initramfs-tools/initramfs.conf and change COMPRESS to xz instead of zstd
+sudo update-initramfs -c -k all && \
+sudo update-grub && \
+echo '======================= Reboot at your will Soldier! ============================'
